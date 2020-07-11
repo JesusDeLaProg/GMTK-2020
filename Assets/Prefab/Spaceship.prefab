@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1514856040180362988}
   m_Layer: 2
   m_Name: Spaceship
-  m_TagString: Untagged
+  m_TagString: Spaceship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeamForce: 10
   BeamLength: 7
+  LaserLength: 100
+  LaserLifeSpan: 0.25
   Tip: {fileID: 8396712389159251995}
   Torque: 5
 --- !u!50 &7241206294330508817

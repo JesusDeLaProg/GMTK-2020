@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public float BeamForce = 5;
     public float BeamLength = 5;
+    public float LaserLength = 100;
+    public float LaserLifeSpan = 0.5f;
     public Transform Tip;
     public float Torque = 1;
 
@@ -26,9 +28,16 @@ public class PlayerController : MonoBehaviour
         mousePosition.z = 0;
         if(Input.GetMouseButtonDown(0))
         {
-            DrawLineTo(mousePosition);
+            magnetBeam = DrawLineTo(mousePosition - transform.position, Color.white, BeamLength);
         }
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Spaceship Position : " + transform.position);
+            Debug.Log("Laser Position : " + mousePosition);
+            var laser = DrawLineTo(mousePosition - transform.position, Color.magenta, LaserLength);
+            Destroy(laser.gameObject, LaserLifeSpan);
+        }
+        if (Input.GetMouseButtonUp(0))
         {
             Destroy(magnetBeam.gameObject);
             magnetBeam = null;
@@ -44,17 +53,18 @@ public class PlayerController : MonoBehaviour
     }
 
     // Create
-    void DrawLineTo(Vector3 endPosition)
+    LineRenderer DrawLineTo(Vector3 direction, Color color, float length)
     {
-        endPosition.z = 0;
+        direction.Normalize();
         var line = new GameObject();
-        magnetBeam = line.AddComponent<LineRenderer>();
-        magnetBeam.material = new Material(Shader.Find("Sprites/Default"));
-        magnetBeam.startColor = Color.white;
-        magnetBeam.endColor = Color.white;
-        magnetBeam.startWidth = 0.4f;
-        magnetBeam.endWidth = 0.4f;
-        magnetBeam.SetPositions(new Vector3[] { transform.position, transform.position });
+        var lineRenderer = line.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
+        lineRenderer.startWidth = 0.4f;
+        lineRenderer.endWidth = 0.4f;
+        lineRenderer.SetPositions(new Vector3[] { transform.position, transform.position + direction * length });
+        return lineRenderer;
     }
 
     void UpdateLinePositions(Vector3 mousePosition)
