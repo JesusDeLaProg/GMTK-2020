@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5919168983830817617}
   - component: {fileID: 5919168983830817618}
   - component: {fileID: 5919168983830817619}
+  - component: {fileID: 6725337004185322840}
   - component: {fileID: 852219862533502975}
   m_Layer: 0
   m_Name: Asteroid
@@ -99,6 +100,20 @@ CircleCollider2D:
   m_Offset: {x: 0.42909384, y: 0.095431805}
   serializedVersion: 2
   m_Radius: 7.798741
+--- !u!114 &6725337004185322840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5919168983830817644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23832d04aabfe7409ffde90af10e99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SmallerAsteroid: {fileID: 0}
+  Size: 0
 --- !u!50 &852219862533502975
 Rigidbody2D:
   serializedVersion: 4
