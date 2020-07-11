@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public float BeamForce = 5;
     public float BeamLength = 5;
+    public Transform Tip;
+    public float Torque = 1;
 
     new Rigidbody2D rigidbody;
 
@@ -22,10 +24,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
-        if(magnetBeam)
-        {
-            magnetBeam.SetPositions(new Vector3[] { transform.position, transform.position + ((mousePosition - transform.position).normalized * BeamLength) });
-        }
         if(Input.GetMouseButtonDown(0))
         {
             DrawLineTo(mousePosition);
@@ -33,10 +31,15 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonUp(0))
         {
             Destroy(magnetBeam.gameObject);
+            magnetBeam = null;
         }
         if(Input.GetMouseButton(0))
         {
             AttractInDirectionOf(mousePosition);
+        }
+        if (magnetBeam)
+        {
+            UpdateLinePositions(mousePosition);
         }
     }
 
@@ -51,7 +54,12 @@ public class PlayerController : MonoBehaviour
         magnetBeam.endColor = Color.white;
         magnetBeam.startWidth = 0.4f;
         magnetBeam.endWidth = 0.4f;
-        magnetBeam.SetPositions(new Vector3[] { transform.position, endPosition });
+        magnetBeam.SetPositions(new Vector3[] { transform.position, transform.position });
+    }
+
+    void UpdateLinePositions(Vector3 mousePosition)
+    {
+        magnetBeam.SetPositions(new Vector3[] { transform.position, transform.position + ((mousePosition - transform.position).normalized * BeamLength) });
     }
 
     void AttractInDirectionOf(Vector2 position)
@@ -64,6 +72,14 @@ public class PlayerController : MonoBehaviour
             Vector2 force = new Vector2(direction.x, direction.y).normalized * BeamForce;
             hit.rigidbody.AddForce(force * -1);
             rigidbody.AddForce(force);
+
+        }
+        Vector3 forward3 = (Tip.transform.position - transform.position);
+        Vector2 forward = new Vector2(forward3.x, forward3.y).normalized;
+        float angle = Vector2.SignedAngle(forward, (position - thisPos).normalized);
+        if(hits.Length > 0)
+        {
+            rigidbody.AddTorque(Torque * Mathf.Sign(angle));
         }
     }
 }
