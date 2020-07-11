@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -13,10 +15,11 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
+        StartLevel();
     }
 
     public void StartLevel(){
-
+        SceneManager.LoadScene("DefaultMap");
     }
     
     public void SetUI(){
