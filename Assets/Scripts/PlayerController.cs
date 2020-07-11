@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody2D rigidbody;
+    public float BeamForce = 5;
+    public float BeamLength = 5;
+
+    new Rigidbody2D rigidbody;
+
+    private LineRenderer magnetBeam;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,23 +20,50 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 force = new Vector2(0, 0);
-        if(Input.GetKey(KeyCode.LeftArrow))
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
+        if(magnetBeam)
         {
-            force += new Vector2(-1, 0);
+            magnetBeam.SetPositions(new Vector3[] { transform.position, transform.position + ((mousePosition - transform.position).normalized * BeamLength) });
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if(Input.GetMouseButtonDown(0))
         {
-            force += new Vector2(1, 0);
+            DrawLineTo(mousePosition);
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if(Input.GetMouseButtonUp(0))
         {
-            force += new Vector2(0, 1);
+            Destroy(magnetBeam.gameObject);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if(Input.GetMouseButton(0))
         {
-            force += new Vector2(0, -1);
+            AttractInDirectionOf(mousePosition);
         }
-        rigidbody.AddForce(force);
+    }
+
+    // Create
+    void DrawLineTo(Vector3 endPosition)
+    {
+        endPosition.z = 0;
+        var line = new GameObject();
+        magnetBeam = line.AddComponent<LineRenderer>();
+        magnetBeam.material = new Material(Shader.Find("Sprites/Default"));
+        magnetBeam.startColor = Color.white;
+        magnetBeam.endColor = Color.white;
+        magnetBeam.startWidth = 0.4f;
+        magnetBeam.endWidth = 0.4f;
+        magnetBeam.SetPositions(new Vector3[] { transform.position, endPosition });
+    }
+
+    void AttractInDirectionOf(Vector2 position)
+    {
+        var thisPos = new Vector2(transform.position.x, transform.position.y);
+        var hits = Physics2D.RaycastAll(thisPos, (position - thisPos).normalized, BeamLength);
+        foreach(var hit in hits)
+        {
+            Vector3 direction = hit.transform.position - transform.position;
+            Vector2 force = new Vector2(direction.x, direction.y).normalized * BeamForce;
+            hit.rigidbody.AddForce(force * -1);
+            rigidbody.AddForce(force);
+        }
     }
 }
