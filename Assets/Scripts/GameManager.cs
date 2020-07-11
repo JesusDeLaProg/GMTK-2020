@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public HealthDisplay Health;
     public static GameManager instance {get;private set;}
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,9 @@ public class GameManager : MonoBehaviour
     }
     
     public void SetUI(){
-        
+        if(Input.GetKeyDown("space")){
+           Health.health--;   
+        }
     }
 
     public void EndLevel(){
@@ -26,5 +29,11 @@ public class GameManager : MonoBehaviour
 
     public void EndGame(){
 
+    }
+
+    public void Update(){
+        if(Input.GetKeyDown("space")){
+           Health.health--;   
+        }
     }
 }

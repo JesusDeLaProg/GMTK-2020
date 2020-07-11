@@ -17,12 +17,15 @@ public class HealthDisplay : MonoBehaviour
         }
         set
         {
-            _health = value;
+           _health = value;
+           for(int i = value; i < Healths.Length; i++){
+               Healths[i].color =new Color32(255,255,255,0);;
+            }
         }
     }
 
     void Start()
-    {
+    {        
         Display.text = "Health : ";
     }
 }
