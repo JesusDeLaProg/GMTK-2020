@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public HealthDisplay Health;
     public LaserDisplay Laser;
+    public AnimController dialogue;
+
 
     public bool LaserReady{
         get{
@@ -38,11 +40,14 @@ public class GameManager : MonoBehaviour
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
         StartLevel();
+        dialogue = GameObject.FindObjectOfType<AnimController>();
+        dialogue.StartAnim = true;
     }
 
     public void StartLevel(){
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
-        SceneManager.LoadScene("DefaultMap");    }
+        SceneManager.LoadScene("DefaultMap");
+    }
     
     public void SetUI(){
         if(Input.GetKeyDown("space")){
