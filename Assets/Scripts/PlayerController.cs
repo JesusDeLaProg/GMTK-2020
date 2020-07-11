@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public float BeamForce = 5;
     public float BeamLength = 5;
+    public float BeamWidth = 0.1f;
     public Material BeamMaterial;
+
     public float LaserLength = 100;
+    public float LaserWidth = 0.4f;
     public float LaserLifeSpan = 0.5f;
+    public float LaserRecoil = 1;
     public Material LaserMaterial;
+    
     public Transform Tip;
     public float Torque = 1;
 
@@ -30,13 +36,18 @@ public class PlayerController : MonoBehaviour
         mousePosition.z = 0;
         if(Input.GetMouseButtonDown(0))
         {
-            magnetBeam = DrawLineTo(mousePosition - transform.position, BeamMaterial, BeamLength);
+            magnetBeam = DrawLineTo(mousePosition - transform.position, BeamMaterial, BeamLength, BeamWidth);
         }
         if (Input.GetMouseButtonDown(1))
         {
-
-            var laser = DrawLineTo(mousePosition - transform.position, LaserMaterial, LaserLength);
-            Destroy(laser.gameObject, LaserLifeSpan);
+            if(GameManager.instance.LaserReady)
+            {
+                GameManager.instance.LaserReady = false;
+                var laser = DrawLineTo(mousePosition - transform.position, LaserMaterial, LaserLength, LaserWidth);
+                rigidbody.AddForce((transform.position - mousePosition).normalized * LaserRecoil, ForceMode2D.Impulse);
+                Destroy(laser.gameObject, LaserLifeSpan);
+                DestroyAsteroidsInDirectionOf((mousePosition - transform.position).normalized);
+            }
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -45,7 +56,7 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetMouseButton(0))
         {
-            AttractInDirectionOf(mousePosition);
+            AttractInDirectionOf((mousePosition - transform.position).normalized);
         }
         if (magnetBeam)
         {
@@ -54,15 +65,15 @@ public class PlayerController : MonoBehaviour
     }
 
     // Create
-    LineRenderer DrawLineTo(Vector3 direction, Material material, float length)
+    LineRenderer DrawLineTo(Vector3 direction, Material material, float length, float width)
     {
         direction.Normalize();
         var line = new GameObject();
         var lineRenderer = line.AddComponent<LineRenderer>();
         lineRenderer.material = material;
         lineRenderer.numCapVertices = 40;
-        lineRenderer.startWidth = 0.4f;
-        lineRenderer.endWidth = 0.4f;
+        lineRenderer.startWidth = width;
+        lineRenderer.endWidth = width;
         lineRenderer.SetPositions(new Vector3[] { transform.position, transform.position + direction * length });
         return lineRenderer;
     }
@@ -72,24 +83,34 @@ public class PlayerController : MonoBehaviour
         magnetBeam.SetPositions(new Vector3[] { transform.position, transform.position + ((mousePosition - transform.position).normalized * BeamLength) });
     }
 
-    void AttractInDirectionOf(Vector2 position)
+    void AttractInDirectionOf(Vector2 direction)
     {
         var thisPos = new Vector2(transform.position.x, transform.position.y);
-        var hits = Physics2D.RaycastAll(thisPos, (position - thisPos).normalized, BeamLength);
-        foreach(var hit in hits)
+        var hits = Physics2D.RaycastAll(thisPos, direction, BeamLength);
+        foreach(var hit in hits.Where(h => h.rigidbody != null))
         {
-            Vector3 direction = hit.transform.position - transform.position;
-            Vector2 force = new Vector2(direction.x, direction.y).normalized * BeamForce;
+            Vector2 force = direction * BeamForce;
             hit.rigidbody.AddForce(force * -1);
             rigidbody.AddForce(force);
 
         }
         Vector3 forward3 = (Tip.transform.position - transform.position);
         Vector2 forward = new Vector2(forward3.x, forward3.y).normalized;
-        float angle = Vector2.SignedAngle(forward, (position - thisPos).normalized);
+        float angle = Vector2.SignedAngle(forward, direction);
         if(hits.Length > 0)
         {
             rigidbody.AddTorque(Torque * Mathf.Sign(angle));
+        }
+    }
+
+    void DestroyAsteroidsInDirectionOf(Vector2 direction)
+    {
+        var thisPos = new Vector2(transform.position.x, transform.position.y);
+        var hits = Physics2D.RaycastAll(thisPos, direction, BeamLength);
+        foreach (var hit in hits.Where(h => h.transform.gameObject.CompareTag("Asteroid")))
+        {
+            var asteroid = hit.transform.gameObject.GetComponent<Asteroid>();
+            asteroid.Split(direction);
         }
     }
 }

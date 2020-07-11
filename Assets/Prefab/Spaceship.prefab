@@ -54,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,9 +100,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeamForce: 10
   BeamLength: 7
+  BeamWidth: 0.1
   BeamMaterial: {fileID: 2100000, guid: 4065a19903871324da03f172f20735e0, type: 2}
   LaserLength: 100
+  LaserWidth: 0.4
   LaserLifeSpan: 0.25
+  LaserRecoil: 200
   LaserMaterial: {fileID: 2100000, guid: 5b5a94ecf02584a448385972c4e816a0, type: 2}
   Tip: {fileID: 8396712389159251995}
   Torque: 5
