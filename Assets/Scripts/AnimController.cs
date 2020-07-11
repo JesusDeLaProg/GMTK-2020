@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class AnimController : MonoBehaviour
 {
-    public bool StartIntro = false;
-    bool IntroStarted = false;
+    public bool StartAnim = false;
+    bool AnimStarted = false;
     bool AnimEnded = false;
     public bool StartOutro = false;
+    bool soloCheck = false;
 
     public Animator animator;
 
     private void Update()
     {
-        if (StartIntro)
+        if (StartAnim)
         {
-            StartIntro = false;
-            IntroStarted = true;
+            StartAnim = false;
+            AnimStarted = true;
             animator.Play("DialogueIn");
         }
-        if (IntroStarted)
+        if (AnimStarted)
         {
-            if (AnimEnded)
+            if (AnimEnded &&!soloCheck)
             {
-
+                soloCheck=true;
                 FindObjectOfType<DialogueTrigger>().TriggerDialogue();
-
             }
 
         }
@@ -34,6 +34,15 @@ public class AnimController : MonoBehaviour
     public void AnimationIsOver()
     {
         AnimEnded = true;
+    }
+
+    public void Reset()
+    {
+        StartAnim = false;
+        AnimStarted = false;
+        AnimEnded = false;
+        StartOutro = false;
+        soloCheck = false;
     }
 
 }
