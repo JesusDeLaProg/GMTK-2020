@@ -8,9 +8,9 @@ public class AnimationCheck : MonoBehaviour
     {
         FindObjectOfType<AnimController>().AnimationIsOver();
     }
-    public void Reset()
+    public void EndingCall()
     {
-         FindObjectOfType<AnimController>().Reset();
-         gameObject.GetComponent<Animator>().SetBool("DialogueEnding", false);
+        this.gameObject.GetComponent<Animator>().SetBool("DialogueEnding", false);
+        FindObjectOfType<AnimController>().Reset();
     }
 }
