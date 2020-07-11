@@ -22,10 +22,14 @@ public class Asteroid : MonoBehaviour
     {
         var perpendiculaire = Vector2.Perpendicular(Impact).normalized;
         var SplitAxe = new Vector3(perpendiculaire.x,perpendiculaire.y);
-        Instantiate(SmallerAsteroid,transform.position + SplitAxe * transform.localScale.y,transform.rotation);
-        Instantiate(SmallerAsteroid, transform.position - SplitAxe * transform.localScale.y, transform.rotation);
+        if (SmallerAsteroid)
+        {
+            var width = SmallerAsteroid.GetComponent<SpriteRenderer>().bounds.size.x;
+            var asteroid1 = Instantiate(SmallerAsteroid, transform.position + SplitAxe * width/2, transform.rotation);
+            var asteroid2 = Instantiate(SmallerAsteroid, transform.position - SplitAxe * width/2, transform.rotation);
+            asteroid1.GetComponent<Rigidbody2D>().AddForce(SplitAxe * 50, ForceMode2D.Impulse);
+            asteroid2.GetComponent<Rigidbody2D>().AddForce(-SplitAxe * 50, ForceMode2D.Impulse);
+        }
         Destroy(gameObject);
     }
-
-
 }

@@ -5945,6 +5945,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GasStation
       objectReference: {fileID: 0}
+    - target: {fileID: 322555081443131336, guid: 5fafb31d3e5d3f940986d8e8e9cd9b25,
+        type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
     - target: {fileID: 1556397990828452494, guid: 5fafb31d3e5d3f940986d8e8e9cd9b25,
         type: 3}
       propertyPath: m_LocalPosition.x
