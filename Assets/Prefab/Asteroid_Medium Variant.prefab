@@ -70,12 +70,23 @@ PrefabInstance:
     - target: {fileID: 5919168983830817644, guid: bea7a07caee05be4daafd18132dd82ed,
         type: 3}
       propertyPath: m_Name
-      value: Asteroid_Medium
+      value: Asteroid_Medium Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6209187611685936154, guid: bea7a07caee05be4daafd18132dd82ed,
         type: 3}
       propertyPath: m_Mass
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 6725337004185322840, guid: bea7a07caee05be4daafd18132dd82ed,
+        type: 3}
+      propertyPath: Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725337004185322840, guid: bea7a07caee05be4daafd18132dd82ed,
+        type: 3}
+      propertyPath: SmallerAsteroid
+      value: 
+      objectReference: {fileID: 5119641044878871762, guid: 321697388d830e645bff1b56c4951dbd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea7a07caee05be4daafd18132dd82ed, type: 3}

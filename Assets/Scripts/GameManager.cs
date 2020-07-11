@@ -8,6 +8,30 @@ public class GameManager : MonoBehaviour
 {
     public HealthDisplay Health;
     public LaserDisplay Laser;
+    public AnimController dialogue;
+
+
+    public bool LaserReady{
+        get{
+            return Laser.laser;
+        }
+        set{
+            Laser.laser = value;
+        }
+    }
+
+    public int HitPoints{
+        get{
+            return Health.health;
+        }
+        set{
+            Health.health = value;
+            if(value == 0){
+                EndGame();
+            }
+        }
+    }
+
     public static GameManager instance {get;private set;}
     // Start is called before the first frame update
     void Start()
@@ -16,6 +40,8 @@ public class GameManager : MonoBehaviour
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
         StartLevel();
+        dialogue = GameObject.FindObjectOfType<AnimController>();
+        dialogue.StartAnim = true;
     }
 
     public void StartLevel(){
@@ -39,11 +65,5 @@ public class GameManager : MonoBehaviour
 
     public void Update(){
         
-        if(Input.GetKeyDown("space")){
-           Health.health--;   
-        }
-        if(Input.GetKeyDown("enter")){
-           Laser.laser = false;   
-        }
     }
 }
