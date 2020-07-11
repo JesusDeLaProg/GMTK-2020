@@ -12,13 +12,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this);        
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
         StartLevel();
     }
 
     public void StartLevel(){
+        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
         SceneManager.LoadScene("DefaultMap");
     }
     
