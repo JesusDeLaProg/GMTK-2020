@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public float BeamForce = 5;
     public float BeamLength = 5;
+    public Material BeamMaterial;
     public float LaserLength = 100;
     public float LaserLifeSpan = 0.5f;
+    public Material LaserMaterial;
     public Transform Tip;
     public float Torque = 1;
 
@@ -28,13 +30,12 @@ public class PlayerController : MonoBehaviour
         mousePosition.z = 0;
         if(Input.GetMouseButtonDown(0))
         {
-            magnetBeam = DrawLineTo(mousePosition - transform.position, Color.white, BeamLength);
+            magnetBeam = DrawLineTo(mousePosition - transform.position, BeamMaterial, BeamLength);
         }
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("Spaceship Position : " + transform.position);
-            Debug.Log("Laser Position : " + mousePosition);
-            var laser = DrawLineTo(mousePosition - transform.position, Color.magenta, LaserLength);
+
+            var laser = DrawLineTo(mousePosition - transform.position, LaserMaterial, LaserLength);
             Destroy(laser.gameObject, LaserLifeSpan);
         }
         if (Input.GetMouseButtonUp(0))
@@ -53,14 +54,13 @@ public class PlayerController : MonoBehaviour
     }
 
     // Create
-    LineRenderer DrawLineTo(Vector3 direction, Color color, float length)
+    LineRenderer DrawLineTo(Vector3 direction, Material material, float length)
     {
         direction.Normalize();
         var line = new GameObject();
         var lineRenderer = line.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = color;
-        lineRenderer.endColor = color;
+        lineRenderer.material = material;
+        lineRenderer.numCapVertices = 40;
         lineRenderer.startWidth = 0.4f;
         lineRenderer.endWidth = 0.4f;
         lineRenderer.SetPositions(new Vector3[] { transform.position, transform.position + direction * length });

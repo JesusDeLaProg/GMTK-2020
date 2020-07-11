@@ -100,8 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeamForce: 10
   BeamLength: 7
+  BeamMaterial: {fileID: 2100000, guid: 4065a19903871324da03f172f20735e0, type: 2}
   LaserLength: 100
   LaserLifeSpan: 0.25
+  LaserMaterial: {fileID: 2100000, guid: 5b5a94ecf02584a448385972c4e816a0, type: 2}
   Tip: {fileID: 8396712389159251995}
   Torque: 5
 --- !u!50 &7241206294330508817
