@@ -54,12 +54,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EndLevel(){
-
+    public void EndLevel()
+    {
+        Debug.Log("Bravo !");
     }
 
-    public void EndGame(){
-
+    public void EndGame()
+    {
+        Debug.Log("RIP !");
     }
 
     public void Update(){

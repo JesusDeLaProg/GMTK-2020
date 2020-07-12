@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1556397990828452494}
   - component: {fileID: 3987154383130942100}
   - component: {fileID: 3834329602481809872}
+  - component: {fileID: 1890970448125597883}
   m_Layer: 0
   m_Name: GasStation
   m_TagString: Finish
@@ -98,3 +99,15 @@ CircleCollider2D:
   m_Offset: {x: 0.4, y: -1}
   serializedVersion: 2
   m_Radius: 13.38
+--- !u!114 &1890970448125597883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322555081443131336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7154878abe30cc4d80e757595af1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
