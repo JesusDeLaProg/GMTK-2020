@@ -8,7 +8,7 @@ public class LaserCanon : MonoBehaviour
     public float LaserLength = 100;
     public float LaserWidth = 0.4f;
     public float LaserLifeSpan = 0.1f;
-    public float LaserRecoil = 300;
+    public float LaserRecoil = 200;
     public Material LaserMaterial;
 
     private LineCreator lineCreator;
