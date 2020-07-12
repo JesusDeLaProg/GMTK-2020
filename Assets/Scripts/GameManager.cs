@@ -62,9 +62,15 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("RIP !");
+        //Explosion
     }
 
-    public void Update(){
+    public void Update()
+    {
+        if(Input.GetKeyDown("r"))
+        {
+            EndGame();
+        }
         
     }
 }
