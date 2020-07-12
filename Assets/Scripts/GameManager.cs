@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     }
 
     public static GameManager instance {get;private set;}
+
+    private int level = -1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,12 +56,21 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel(Scene scene, LoadSceneMode mode)
     {
-        Health.health = 5;
-        ResetUI();
-        dialogue = GameObject.FindObjectOfType<AnimController>();
-        dialogue.Dialogue = GameStartDialogue;
-        dialogue.OnDialogueEnd = () => pc.Active = true;
-        dialogue.StartAnim = true;
+        if(scene.name == "Random Map")
+        {
+            ++level;
+            Health.health = 5;
+            ResetUI();
+
+            var mapBuilder = GameObject.FindGameObjectWithTag("Map Builder").GetComponent<MapBuilder>();
+            mapBuilder.GasStationSpawnDistance = 50 + 15 * level;
+            mapBuilder.Seed = UnityEngine.Random.value;
+
+            dialogue = GameObject.FindObjectOfType<AnimController>();
+            dialogue.Dialogue = GameStartDialogue;
+            dialogue.OnDialogueEnd = () => pc.Active = true;
+            dialogue.StartAnim = true;
+        }
     }
     
     public void ResetUI()
@@ -74,7 +86,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Bravo !");
         dialogue.Dialogue = LevelWinDialogue;
         StartCoroutine(pc.Stop(1));
-        pc.Active = false;
         dialogue.OnDialogueEnd = () => {
             StartCoroutine(LoadLevel("Random Map"));
         };
@@ -84,10 +95,11 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("RIP !");
+        --level;
         GetComponent<AudioSource>().Play();
         pc.setSpriteDeadShip();
         dialogue.Dialogue = GameOverDialogue;
-        pc.Active = false;
+        StartCoroutine(pc.Stop(1));
         dialogue.OnDialogueEnd = () =>
         {
             StartCoroutine(LoadLevel("Random Map"));

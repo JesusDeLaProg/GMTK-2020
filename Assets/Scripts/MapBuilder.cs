@@ -52,22 +52,28 @@ public class MapBuilder : MonoBehaviour
         }
     }
 
+    public GameObject GasStationPrefab;
+    public float GasStationSpawnDistance;
+
     public Transform AsteroidContainer;
 
-    public float ChunkWidth;
-    public float ChunkHeight;
+    public float ChunkWidth = 20;
+    public float ChunkHeight = 20;
 
-    public float SamplingRateX;
-    public float SamplingRateY;
+    public float SamplingRateX = 6;
+    public float SamplingRateY = 6;
 
-    public float NoiseScale;
+    public float NoiseScale = 3;
 
-    public float PositionNoiseScale;
-    public float InitialImpulse;
+    public float PositionNoiseScale = 2;
+    public float InitialImpulse = 2;
 
     public float Seed;
 
-    public float[] AsteroidProbabilities;
+    public float[] AsteroidProbabilities = new float[]
+    {
+        0.2f, 0.3f, 0.6f, 0.8f
+    };
     public GameObject[] AsteroidPrefabs;
 
     private MapChunks Chunks = new MapChunks();
@@ -100,22 +106,27 @@ public class MapBuilder : MonoBehaviour
         }
     }
 
-    private void BuildMap()
+    private void SpawnGasStation()
+    {
+        Instantiate(GasStationPrefab, Quaternion.AngleAxis(360 * Random.value, Vector3.forward) * Vector3.up * GasStationSpawnDistance, Quaternion.Euler(0, 0, 0));
+    }
+
+    public void BuildMap()
     {
         int i = 0;
         for(var y = 1; y >= -1; --y)
         {
             for(var x = -1; x <= 1; ++x)
             {
-                Chunks.Chunks[i] = BuildChunk(new Vector3(x * ChunkWidth, y * ChunkHeight));
+                Chunks.Chunks[i] = BuildChunk(new Vector3(x * ChunkWidth, y * ChunkHeight), x != 0 || y != 0);
                 ++i;
             }
         }
+        SpawnGasStation();
     }
 
-    private MapChunk BuildChunk(Vector3 chunkCenter)
+    private MapChunk BuildChunk(Vector3 chunkCenter, bool addImpulse)
     {
-        Debug.Log("Creating chunk for center : " + chunkCenter);
         var container = new GameObject();
         container.transform.SetParent(AsteroidContainer);
 
@@ -137,6 +148,7 @@ public class MapBuilder : MonoBehaviour
                 }
                 if (objectToCreate)
                 {
+                    Debug.Log("Creating : " + objectToCreate);
                     var asteroidPosition = new Vector3(x + (Random.value * 2 - 1) * PositionNoiseScale, y + (Random.value * 2 - 1) * PositionNoiseScale, 0);
                     if ((player.position - asteroidPosition).magnitude < 3)
                     {
@@ -165,7 +177,7 @@ public class MapBuilder : MonoBehaviour
                 var vUp = new Vector3(0,ChunkHeight,0);
                 Chunks.Chunks = new MapChunk[]
                 {
-                    BuildChunk(Chunks.Chunks[0].center + vUp),BuildChunk(Chunks.Chunks[1].center + vUp),BuildChunk(Chunks.Chunks[2].center + vUp),
+                    BuildChunk(Chunks.Chunks[0].center + vUp, true),BuildChunk(Chunks.Chunks[1].center + vUp, true),BuildChunk(Chunks.Chunks[2].center + vUp, true),
                     Chunks.Chunks[0],Chunks.Chunks[1],Chunks.Chunks[2],
                     Chunks.Chunks[3],Chunks.Chunks[4],Chunks.Chunks[5]
                 };
@@ -176,9 +188,9 @@ public class MapBuilder : MonoBehaviour
                 var vLeft = new Vector3(-ChunkWidth, 0, 0);
                 Chunks.Chunks = new MapChunk[]
                 {
-                    BuildChunk(Chunks.Chunks[0].center + vLeft),Chunks.Chunks[0],Chunks.Chunks[1],
-                    BuildChunk(Chunks.Chunks[3].center + vLeft),Chunks.Chunks[3],Chunks.Chunks[4],
-                    BuildChunk(Chunks.Chunks[6].center + vLeft),Chunks.Chunks[6],Chunks.Chunks[7],
+                    BuildChunk(Chunks.Chunks[0].center + vLeft, true),Chunks.Chunks[0],Chunks.Chunks[1],
+                    BuildChunk(Chunks.Chunks[3].center + vLeft, true),Chunks.Chunks[3],Chunks.Chunks[4],
+                    BuildChunk(Chunks.Chunks[6].center + vLeft, true),Chunks.Chunks[6],Chunks.Chunks[7],
                 };
                 break;
             case Direction.Right:
@@ -187,9 +199,9 @@ public class MapBuilder : MonoBehaviour
                 var vRight = new Vector3(ChunkWidth, 0, 0);
                 Chunks.Chunks = new MapChunk[]
                 {
-                    Chunks.Chunks[1],Chunks.Chunks[2],BuildChunk(Chunks.Chunks[2].center + vRight),
-                    Chunks.Chunks[4],Chunks.Chunks[5],BuildChunk(Chunks.Chunks[5].center + vRight),
-                    Chunks.Chunks[7],Chunks.Chunks[8],BuildChunk(Chunks.Chunks[8].center + vRight),
+                    Chunks.Chunks[1],Chunks.Chunks[2],BuildChunk(Chunks.Chunks[2].center + vRight, true),
+                    Chunks.Chunks[4],Chunks.Chunks[5],BuildChunk(Chunks.Chunks[5].center + vRight, true),
+                    Chunks.Chunks[7],Chunks.Chunks[8],BuildChunk(Chunks.Chunks[8].center + vRight, true),
                 };
                 break;
             case Direction.Down:
@@ -200,7 +212,7 @@ public class MapBuilder : MonoBehaviour
                 {
                     Chunks.Chunks[3],Chunks.Chunks[4],Chunks.Chunks[5],
                     Chunks.Chunks[6],Chunks.Chunks[7],Chunks.Chunks[8],
-                    BuildChunk(Chunks.Chunks[6].center + vDown),BuildChunk(Chunks.Chunks[7].center + vDown),BuildChunk(Chunks.Chunks[8].center + vDown)
+                    BuildChunk(Chunks.Chunks[6].center + vDown, true),BuildChunk(Chunks.Chunks[7].center + vDown, true),BuildChunk(Chunks.Chunks[8].center + vDown, true)
                 };
                 break;
         }

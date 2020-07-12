@@ -6,7 +6,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool Active;
+    private bool active;
+    public bool Active
+    {
+        get { return active; }
+        set
+        {
+            active = value;
+            if (active) rigidbody.simulated = true;
+        }
+    }
 
     private LaserCanon laserCanon;
     private Magnet magnet;
@@ -23,13 +32,15 @@ public class PlayerController : MonoBehaviour
         ship = GetComponent<SpriteRenderer>();
         laserCanon = GetComponent<LaserCanon>();
         magnet = GetComponent<Magnet>();
+        Active = false;
     }
 
     public void setSpriteDeadShip()
     {
         ship.sprite = deadShip;
         ship.color = Color.red;
-        ship.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);  
+        ship.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        GetComponentInChildren<Tracker>().Hide();
     }
 
     // Update is called once per frame
@@ -57,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Asteroid"))
+        if(Active && collision.gameObject.CompareTag("Asteroid"))
         {
             StartCoroutine(Hurt());
         }
@@ -78,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Stop(float duration)
     {
+        Active = false;
         var start = DateTime.Now;
         while (rigidbody.velocity.magnitude > 0)
         {
@@ -85,5 +97,6 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         rigidbody.velocity = Vector2.zero;
+        rigidbody.simulated = false;
     }
 }

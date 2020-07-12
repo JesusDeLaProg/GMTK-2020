@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Magnet : MonoBehaviour
 {
-    public float BeamForce = 5;
-    public float BeamLength = 5;
+    public float BeamForce = 10;
+    public float BeamLength = 7;
     public float BeamWidth = 0.1f;
     public Material BeamMaterial;
 

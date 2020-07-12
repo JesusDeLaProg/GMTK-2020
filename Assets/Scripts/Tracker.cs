@@ -8,13 +8,9 @@ public class Tracker : MonoBehaviour
 {
     private Transform _target;
     private Transform _ship;
+    private SpriteRenderer sr;
 
-    void findTargets(Scene scene, LoadSceneMode mode)
-    {
-        setTargets();
-    }
-
-    private void setTargets()
+    private void findTargets()
     {
         var finish = GameObject.FindGameObjectWithTag("Finish");
         var spaceship = GameObject.FindGameObjectWithTag("Spaceship");
@@ -27,13 +23,14 @@ public class Tracker : MonoBehaviour
 
     private void Start()
     {
-        setTargets();
-        SceneManager.sceneLoaded += findTargets; 
+        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!_target || !_ship) findTargets();
+
         if(_target && _ship)
         {
             var worldDirection = (_target.position - _ship.position).normalized;
@@ -41,5 +38,15 @@ public class Tracker : MonoBehaviour
             transform.position = _ship.position + worldDirection *2;
             transform.rotation = Quaternion.LookRotation(transform.forward, worldDirection);
         }
-    }    
+    }
+
+    public void Show()
+    {
+        sr.color = new Color(255, 0, 0, 255);
+    }
+
+    public void Hide()
+    {
+        sr.color = new Color(255, 0, 0, 0);
+    }
 }
