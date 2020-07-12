@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private LaserCanon laserCanon;
     private Magnet magnet;
     private SpriteRenderer ship;
+    public Sprite deadShip;
     private bool hurting;
 
     // Start is called before the first frame update
@@ -16,6 +17,13 @@ public class PlayerController : MonoBehaviour
         ship = GetComponent<SpriteRenderer>();
         laserCanon = GetComponent<LaserCanon>();
         magnet = GetComponent<Magnet>();
+    }
+
+    public void setSpriteDeadShip()
+    {
+        ship.sprite = deadShip;
+        ship.color = Color.red;
+        ship.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);  
     }
 
     // Update is called once per frame

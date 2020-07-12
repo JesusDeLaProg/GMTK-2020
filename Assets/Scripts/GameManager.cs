@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public HealthDisplay Health;
     public LaserDisplay Laser;
     public AnimController dialogue;
+    public PlayerController pc;
 
     public bool LaserReady{
         get{
@@ -61,8 +62,10 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        pc = GameObject.FindGameObjectWithTag("Spaceship").GetComponent<PlayerController>();
         Debug.Log("RIP !");
-        //Explosion
+        GetComponent<AudioSource>().Play();
+        pc.setSpriteDeadShip();
     }
 
     public void Update()
