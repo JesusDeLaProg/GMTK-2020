@@ -9,7 +9,7 @@ public class AudioSourceManager : MonoBehaviour
 
     public void PlayMagnet()
     {
-        MagnetSound.volume = 0.35f;
+        MagnetSound.volume = 0.25f;
         MagnetSound.Play();
     }
 
