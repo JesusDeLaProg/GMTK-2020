@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("RIP !");
-
+        --level;
         GetComponent<AudioSource>().Play();
         StartCoroutine(pc.Stop(1));
         pc.setSpriteDeadShip();
