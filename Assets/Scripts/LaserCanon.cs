@@ -26,6 +26,7 @@ public class LaserCanon : MonoBehaviour
         Destroy(laser, LaserLifeSpan);
         rigidbody.AddForce(transform.up * -1 * LaserRecoil, ForceMode2D.Impulse);
         DestroyAsteroidsInDirectionOf(transform.up);
+        gameObject.GetComponent<AudioSourceManager>().PlayLaser();
     }
 
     private void DestroyAsteroidsInDirectionOf(Vector2 direction)
