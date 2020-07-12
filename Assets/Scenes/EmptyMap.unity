@@ -265,15 +265,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e62ef9a26d28648b49d3d0ec7072de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapWidth: 400
-  MapHeight: 400
-  SamplingRateX: 3.5
-  SamplingRateY: 3.5
+  MapWidth: 300
+  MapHeight: 300
+  SamplingRateX: 10
+  SamplingRateY: 10
+  NoiseScale: 0
+  PositionNoiseScale: 10
+  InitialImpulse: 10
+  Seed: 4.88
   AsteroidProbabilities:
+  - 0.1
   - 0.2
-  - 0.3
-  - 0.8
-  - 0.95
+  - 0.4
+  - 0.7
   AsteroidPrefabs:
   - {fileID: 5119641044878871762, guid: 321697388d830e645bff1b56c4951dbd, type: 3}
   - {fileID: 4360336617164499747, guid: 14b3dda21275fe5409252a69b4ba8258, type: 3}
