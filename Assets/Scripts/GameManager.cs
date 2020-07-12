@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public LaserDisplay Laser;
     public AnimController dialogue;
 
-
     public bool LaserReady{
         get{
             return Laser.laser;
@@ -39,9 +38,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);        
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
-        StartLevel();
         dialogue = GameObject.FindObjectOfType<AnimController>();
         dialogue.StartAnim = true;
+        StartLevel();
     }
 
     public void StartLevel(){
