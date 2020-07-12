@@ -25,8 +25,8 @@ public class Asteroid : MonoBehaviour
         if (SmallerAsteroid)
         {
             var width = SmallerAsteroid.GetComponent<SpriteRenderer>().bounds.size.x;
-            var asteroid1 = Instantiate(SmallerAsteroid, transform.position + SplitAxe * width/2, transform.rotation);
-            var asteroid2 = Instantiate(SmallerAsteroid, transform.position - SplitAxe * width/2, transform.rotation);
+            var asteroid1 = Instantiate(SmallerAsteroid, transform.position + SplitAxe * width/2, transform.rotation, transform.parent);
+            var asteroid2 = Instantiate(SmallerAsteroid, transform.position - SplitAxe * width/2, transform.rotation, transform.parent);
             asteroid1.GetComponent<Rigidbody2D>().AddForce(SplitAxe * 50, ForceMode2D.Impulse);
             asteroid2.GetComponent<Rigidbody2D>().AddForce(-SplitAxe * 50, ForceMode2D.Impulse);
         }

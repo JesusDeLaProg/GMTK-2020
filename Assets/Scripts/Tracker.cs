@@ -40,8 +40,6 @@ public class Tracker : MonoBehaviour
        
             transform.position = _ship.position + worldDirection *2;
             transform.rotation = Quaternion.LookRotation(transform.forward, worldDirection);
-
-
         }
     }    
 }
