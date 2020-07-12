@@ -25,9 +25,11 @@ public class HealthDisplay : MonoBehaviour
 
     IEnumerator LostLife(int index)
     {
-        Healths[index].color =new Color32(255,0,0,255);
-        yield return new WaitForSeconds(.2f);
-        Healths[index].color =new Color32(255,0,0,0);
+        if (_health >= 0) {
+            Healths[index].color = new Color32(255, 0, 0, 255);
+            yield return new WaitForSeconds(.2f);
+            Healths[index].color = new Color32(255, 0, 0, 0);
+        }
     }
 
     public IEnumerator FuelEmpty(){

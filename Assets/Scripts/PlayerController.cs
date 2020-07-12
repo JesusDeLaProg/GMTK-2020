@@ -7,12 +7,13 @@ public class PlayerController : MonoBehaviour
 {
     private LaserCanon laserCanon;
     private Magnet magnet;
-
+    private SpriteRenderer ship;
     private bool hurting;
 
     // Start is called before the first frame update
     void Start()
     {
+        ship = GetComponent<SpriteRenderer>();
         laserCanon = GetComponent<LaserCanon>();
         magnet = GetComponent<Magnet>();
     }
@@ -52,9 +53,11 @@ public class PlayerController : MonoBehaviour
     {
         if(!hurting)
         {
+            ship.color = Color.red;
             GameManager.instance.HitPoints--;
             hurting = true;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
+            ship.color = Color.white;
             hurting = false;
         }
     }
