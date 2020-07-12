@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -598,7 +598,6 @@ Transform:
   m_LocalPosition: {x: 4.846615, y: 3.1590679, z: -32.01275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1478950650}
   - {fileID: 576306944}
   - {fileID: 226675590}
   - {fileID: 308876141}
@@ -610,10 +609,11 @@ Transform:
   - {fileID: 1642084214}
   - {fileID: 5724478}
   - {fileID: 629753632}
-  - {fileID: 1516143393}
+  - {fileID: 1478950650}
   - {fileID: 886434341}
   - {fileID: 1176634702}
   - {fileID: 1027770410}
+  - {fileID: 1516143393}
   - {fileID: 246495600}
   - {fileID: 306536}
   - {fileID: 1704175470}
@@ -1992,7 +1992,6 @@ Transform:
   m_LocalPosition: {x: 4.846615, y: 3.1590679, z: -32.01275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1468437249}
   - {fileID: 1917327942}
   - {fileID: 1842231680}
   - {fileID: 1005594444}
@@ -2001,6 +2000,7 @@ Transform:
   - {fileID: 840747803}
   - {fileID: 1780040721}
   - {fileID: 193321492}
+  - {fileID: 1468437249}
   - {fileID: 165573734}
   - {fileID: 1359165233}
   - {fileID: 1260956520}
@@ -4440,12 +4440,12 @@ PrefabInstance:
     - target: {fileID: 5119641044878871791, guid: 321697388d830e645bff1b56c4951dbd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.446615
+      value: -12.1
       objectReference: {fileID: 0}
     - target: {fileID: 5119641044878871791, guid: 321697388d830e645bff1b56c4951dbd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.0090675
+      value: -5.09
       objectReference: {fileID: 0}
     - target: {fileID: 5119641044878871791, guid: 321697388d830e645bff1b56c4951dbd,
         type: 3}
@@ -4471,6 +4471,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119641044878871791, guid: 321697388d830e645bff1b56c4951dbd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 321697388d830e645bff1b56c4951dbd, type: 3}
@@ -4657,12 +4662,12 @@ Transform:
   m_LocalPosition: {x: 4.846615, y: 3.1590679, z: -32.01275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2040549965}
   - {fileID: 1318112881}
   - {fileID: 408162121}
   - {fileID: 386336777}
   - {fileID: 1498174663}
   - {fileID: 2001007772}
+  - {fileID: 2040549965}
   - {fileID: 909576492}
   - {fileID: 1031365379}
   m_Father: {fileID: 1714984964}
@@ -5779,7 +5784,6 @@ Transform:
   m_LocalPosition: {x: 4.846615, y: 3.1590679, z: -32.01275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1325737091}
   - {fileID: 982812935}
   - {fileID: 2125522367}
   - {fileID: 1944872967}
@@ -5791,6 +5795,7 @@ Transform:
   - {fileID: 806923515}
   - {fileID: 899354224}
   - {fileID: 1902026772}
+  - {fileID: 1325737091}
   - {fileID: 145443243}
   - {fileID: 437359786}
   - {fileID: 846405258}
@@ -5953,12 +5958,12 @@ PrefabInstance:
     - target: {fileID: 1556397990828452494, guid: 5fafb31d3e5d3f940986d8e8e9cd9b25,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.48
+      value: -3.99
       objectReference: {fileID: 0}
     - target: {fileID: 1556397990828452494, guid: 5fafb31d3e5d3f940986d8e8e9cd9b25,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -23.38
+      value: -7.18
       objectReference: {fileID: 0}
     - target: {fileID: 1556397990828452494, guid: 5fafb31d3e5d3f940986d8e8e9cd9b25,
         type: 3}
@@ -6014,6 +6019,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 978440923958774844, guid: 65266e7588e22cf41bc87688aaec6843,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2725985532603900960, guid: 65266e7588e22cf41bc87688aaec6843,
         type: 3}
       propertyPath: m_Name

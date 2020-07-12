@@ -30,10 +30,12 @@ public class Magnet : MonoBehaviour
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         beam = lineCreator.DrawLineTo(mousePosition - transform.position, BeamMaterial, BeamLength, BeamWidth);
+        gameObject.GetComponent<AudioSourceManager>().PlayMagnet();
     }
 
     public void Deactivate()
     {
+        gameObject.GetComponent<AudioSourceManager>().StopMagnet();
         Destroy(beam.gameObject);
         beam = null;
     }
