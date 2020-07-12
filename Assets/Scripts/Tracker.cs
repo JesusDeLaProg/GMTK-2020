@@ -6,11 +6,15 @@ using UnityEngine.UI;
 
 public class Tracker : MonoBehaviour
 {
-    public Image img;
     private Transform _target;
     private Transform _ship;
 
     void findTargets(Scene scene, LoadSceneMode mode)
+    {
+        setTargets();
+    }
+
+    private void setTargets()
     {
         var finish = GameObject.FindGameObjectWithTag("Finish");
         var spaceship = GameObject.FindGameObjectWithTag("Spaceship");
@@ -23,6 +27,7 @@ public class Tracker : MonoBehaviour
 
     private void Start()
     {
+        setTargets();
         SceneManager.sceneLoaded += findTargets; 
     }
 
@@ -31,10 +36,9 @@ public class Tracker : MonoBehaviour
     {
         if(_target && _ship)
         {
-            var worldPosition = _ship.position + (_target.position - _ship.position).normalized * 2;
-            var screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
-
-            img.transform.position = screenPosition;
+            var worldDirection = (_target.position - _ship.position).normalized;
+       
+            transform.position = _ship.position + worldDirection *2;
 
 
 
