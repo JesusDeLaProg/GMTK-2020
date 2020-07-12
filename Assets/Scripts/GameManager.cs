@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
         SceneManager.sceneLoaded += StartLevel;
-        SceneManager.LoadScene("Random Map");
+        StartCoroutine(LoadLevel("Random Map", 0f, 1f));
     }
 
     public void StartLevel(Scene scene, LoadSceneMode mode)
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         dialogue.Dialogue = LevelWinDialogue;
         StartCoroutine(pc.Stop(1));
         dialogue.OnDialogueEnd = () => {
-            StartCoroutine(LoadLevel("Random Map"));
+            StartCoroutine(LoadLevel("Random Map", 3f, 1));
         };
         dialogue.StartAnim = true;
     }
@@ -95,14 +95,14 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("RIP !");
-        --level;
+
         GetComponent<AudioSource>().Play();
         pc.setSpriteDeadShip();
         dialogue.Dialogue = GameOverDialogue;
         StartCoroutine(pc.Stop(1));
         dialogue.OnDialogueEnd = () =>
         {
-            StartCoroutine(LoadLevel("Random Map"));
+            StartCoroutine(LoadLevel("Random Map", 3f, 1f));
         };
         dialogue.StartAnim = true;
     }
@@ -116,24 +116,27 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private IEnumerator LoadLevel(string levelName)
+    private IEnumerator LoadLevel(string levelName, float durationOut, float durationIn)
     {
-        var duration = 3f;
         var start = DateTime.Now;
-        while((DateTime.Now - start).TotalSeconds < duration)
+        var color = Color.black;
+        while((DateTime.Now - start).TotalSeconds < durationOut)
         {
-            var color = FadeInOutMask.color;
-            FadeInOutMask.color = new Color(color.r, color.g, color.b, (float)((DateTime.Now - start).TotalSeconds / duration));
+            color = FadeInOutMask.color;
+            FadeInOutMask.color = new Color(color.r, color.g, color.b, (float)((DateTime.Now - start).TotalSeconds / durationOut));
             yield return new WaitForFixedUpdate();
         }
+        color = FadeInOutMask.color;
+        FadeInOutMask.color = new Color(color.r, color.g, color.b, 255);
         SceneManager.LoadScene(levelName);
         start = DateTime.Now;
-        duration = 1f;
-        while ((DateTime.Now - start).TotalSeconds < duration)
+        while ((DateTime.Now - start).TotalSeconds < durationIn)
         {
-            var color = FadeInOutMask.color;
-            FadeInOutMask.color = new Color(color.r, color.g, color.b, (float)(1 - (DateTime.Now - start).TotalSeconds / duration));
+            color = FadeInOutMask.color;
+            FadeInOutMask.color = new Color(color.r, color.g, color.b, (float)(1 - (DateTime.Now - start).TotalSeconds / durationIn));
             yield return new WaitForFixedUpdate();
         }
+        color = FadeInOutMask.color;
+        FadeInOutMask.color = new Color(color.r, color.g, color.b, 0);
     }
 }
