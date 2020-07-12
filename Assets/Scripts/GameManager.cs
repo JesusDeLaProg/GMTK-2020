@@ -43,18 +43,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);        
+        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
-        StartLevel();
+        SceneManager.sceneLoaded += StartLevel;
+        SceneManager.LoadScene("Random Map");
     }
 
-    public void StartLevel(){
-        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
-        SceneManager.LoadScene("DefaultMap");
+    public void StartLevel(Scene scene, LoadSceneMode mode)
+    {
+        Health.health = 5;
         dialogue = GameObject.FindObjectOfType<AnimController>();
         dialogue.Dialogue = GameStartDialogue;
-        dialogue.OnAnimationEnd = () => pc.Active = true;
+        dialogue.OnDialogueEnd = () => pc.Active = true;
         dialogue.StartAnim = true;
     }
     
@@ -69,6 +71,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("Bravo !");
         dialogue.Dialogue = LevelWinDialogue;
         StartCoroutine(pc.Stop(1));
+        pc.Active = false;
+        dialogue.OnDialogueEnd = () => {
+            StartCoroutine(LoadLevel("Random Map"));
+        };
         dialogue.StartAnim = true;
     }
 
@@ -78,6 +84,11 @@ public class GameManager : MonoBehaviour
         GetComponent<AudioSource>().Play();
         pc.setSpriteDeadShip();
         dialogue.Dialogue = GameOverDialogue;
+        pc.Active = false;
+        dialogue.OnDialogueEnd = () =>
+        {
+            StartCoroutine(LoadLevel("Random Map"));
+        };
         dialogue.StartAnim = true;
     }
 
@@ -101,6 +112,8 @@ public class GameManager : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         SceneManager.LoadScene(levelName);
+        start = DateTime.Now;
+        duration = 1f;
         while ((DateTime.Now - start).TotalSeconds < duration)
         {
             var color = FadeInOutMask.color;
