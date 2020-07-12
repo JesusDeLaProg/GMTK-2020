@@ -118,7 +118,7 @@ Rigidbody2D:
   m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 100
+  m_Mass: 75
   m_LinearDrag: 0
   m_AngularDrag: 10
   m_GravityScale: 1
@@ -174,7 +174,7 @@ MonoBehaviour:
   LaserLength: 100
   LaserWidth: 0.4
   LaserLifeSpan: 0.1
-  LaserRecoil: 400
+  LaserRecoil: 300
   LaserMaterial: {fileID: 2100000, guid: 5b5a94ecf02584a448385972c4e816a0, type: 2}
 --- !u!114 &3961529045123285577
 MonoBehaviour:

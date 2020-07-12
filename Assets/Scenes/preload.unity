@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -434,6 +434,10 @@ MonoBehaviour:
     - Oh no... Looks like we ran out of fuel...
     - The ship might be partially out of control, but we can use (LMB) to use our
       Magnet and (RMB) to fire a laser!
+  LevelStartDialogue:
+    sentences:
+    - The next Gas Station is even further than the one before... I hope they're
+      not out of gas too!
   GameOverDialogue:
     sentences:
     - It was a pleasure drifting with you... Argh!

@@ -13,8 +13,10 @@ public class GameManager : MonoBehaviour
 
     public AnimController dialogue;
     public PlayerController pc => GameObject.FindGameObjectWithTag("Spaceship").GetComponent<PlayerController>();
+    public AudioSystem audiosys => GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSystem>();
 
     public Dialogue GameStartDialogue;
+    public Dialogue LevelStartDialogue;
     public Dialogue GameOverDialogue;
     public Dialogue LevelWinDialogue;
 
@@ -66,10 +68,16 @@ public class GameManager : MonoBehaviour
             mapBuilder.GasStationSpawnDistance = 50 + 15 * level;
             mapBuilder.Seed = UnityEngine.Random.value;
 
-            AudioSystem audiosys = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSystem>();
             audiosys.LowerVolume();
             dialogue = GameObject.FindObjectOfType<AnimController>();
-            dialogue.Dialogue = GameStartDialogue;
+            if(level == 0)
+            {
+                dialogue.Dialogue = GameStartDialogue;
+            }
+            else
+            {
+                dialogue.Dialogue = LevelStartDialogue;
+            }
             dialogue.OnDialogueEnd = () =>
             {
                 pc.Active = true;
@@ -91,8 +99,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Bravo !");
         dialogue.Dialogue = LevelWinDialogue;
+
+        audiosys.LowerVolume();
         StartCoroutine(pc.Stop(1));
-        dialogue.OnDialogueEnd = () => {
+        dialogue.OnDialogueEnd = () =>
+        {
+            audiosys.BackToNormalVolume();
             StartCoroutine(LoadLevel("Random Map", 3f, 1));
         };
         dialogue.StartAnim = true;
@@ -103,11 +115,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("RIP !");
 
         GetComponent<AudioSource>().Play();
+        StartCoroutine(pc.Stop(1));
         pc.setSpriteDeadShip();
         dialogue.Dialogue = GameOverDialogue;
-        StartCoroutine(pc.Stop(1));
+        audiosys.LowerVolume();
         dialogue.OnDialogueEnd = () =>
         {
+            audiosys.BackToNormalVolume();
             StartCoroutine(LoadLevel("Random Map", 3f, 1f));
         };
         dialogue.StartAnim = true;
