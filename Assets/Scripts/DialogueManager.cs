@@ -46,7 +46,7 @@ public class DialogueManager : MonoBehaviour
         {
             txt.text += l;
             PlaySound();
-            yield return new WaitForSeconds(0.0025f);
+            yield return new WaitForSeconds(0.025f);
         }
         yield return new WaitForSeconds(2f);
         DisplayNextSentence();
