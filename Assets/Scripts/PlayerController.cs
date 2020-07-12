@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private LaserCanon laserCanon;
     private Magnet magnet;
 
+    private bool hurting;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +44,18 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Asteroid"))
         {
+            StartCoroutine(Hurt());
+        }
+    }
+
+    private IEnumerator Hurt()
+    {
+        if(!hurting)
+        {
             GameManager.instance.HitPoints--;
+            hurting = true;
+            yield return new WaitForSeconds(0.5f);
+            hurting = false;
         }
     }
 }
