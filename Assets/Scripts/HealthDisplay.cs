@@ -18,8 +18,11 @@ public class HealthDisplay : MonoBehaviour
         }
         set
         {
+            if(value < _health)
+            {
+                StartCoroutine(LostLife(value));
+            }
            _health = value;
-           StartCoroutine(LostLife(_health));
         }
     }
 

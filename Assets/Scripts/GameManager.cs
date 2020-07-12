@@ -54,15 +54,18 @@ public class GameManager : MonoBehaviour
     public void StartLevel(Scene scene, LoadSceneMode mode)
     {
         Health.health = 5;
+        ResetUI();
         dialogue = GameObject.FindObjectOfType<AnimController>();
         dialogue.Dialogue = GameStartDialogue;
         dialogue.OnDialogueEnd = () => pc.Active = true;
         dialogue.StartAnim = true;
     }
     
-    public void SetUI(){
-        if(Input.GetKeyDown("space")){
-           Health.health--;   
+    public void ResetUI()
+    {
+        foreach(Image h in Health.Healths)
+        {
+            h.color = Color.white;
         }
     }
 

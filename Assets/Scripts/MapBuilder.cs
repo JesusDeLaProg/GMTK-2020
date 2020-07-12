@@ -126,6 +126,7 @@ public class MapBuilder : MonoBehaviour
                 var posX = (x + Seed + ChunkWidth / 2) / ChunkWidth;
                 var posY = (y + Seed + ChunkHeight / 2) / ChunkHeight;
                 var value = Mathf.PerlinNoise(posX * NoiseScale, posY * NoiseScale);
+                Debug.Log(value);
                 GameObject objectToCreate = null;
                 for (var i = 0; i < AsteroidProbabilities.Length; ++i)
                 {
