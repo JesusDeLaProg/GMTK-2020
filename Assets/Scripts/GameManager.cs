@@ -66,9 +66,15 @@ public class GameManager : MonoBehaviour
             mapBuilder.GasStationSpawnDistance = 50 + 15 * level;
             mapBuilder.Seed = UnityEngine.Random.value;
 
+            AudioSystem audiosys = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSystem>();
+            audiosys.LowerVolume();
             dialogue = GameObject.FindObjectOfType<AnimController>();
             dialogue.Dialogue = GameStartDialogue;
-            dialogue.OnDialogueEnd = () => pc.Active = true;
+            dialogue.OnDialogueEnd = () =>
+            {
+                pc.Active = true;
+                audiosys.BackToNormalVolume();
+            };
             dialogue.StartAnim = true;
         }
     }
