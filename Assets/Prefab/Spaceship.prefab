@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 7241206294330508817}
   - component: {fileID: 9083846390252310634}
   - component: {fileID: 1514856040180362988}
+  - component: {fileID: 1958191126481617774}
+  - component: {fileID: 3961529045123285577}
+  - component: {fileID: 1262139049988025514}
   m_Layer: 2
   m_Name: Spaceship
   m_TagString: Spaceship
@@ -98,17 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef92eb785fb8224ab7f1b6876a9323d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeamForce: 10
-  BeamLength: 7
-  BeamWidth: 0.1
-  BeamMaterial: {fileID: 2100000, guid: 4065a19903871324da03f172f20735e0, type: 2}
-  LaserLength: 100
-  LaserWidth: 0.4
-  LaserLifeSpan: 0.25
-  LaserRecoil: 200
-  LaserMaterial: {fileID: 2100000, guid: 5b5a94ecf02584a448385972c4e816a0, type: 2}
-  Tip: {fileID: 8396712389159251995}
-  Torque: 5
 --- !u!50 &7241206294330508817
 Rigidbody2D:
   serializedVersion: 4
@@ -162,6 +154,53 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 6.19, y: 19.58}
   m_Direction: 0
+--- !u!114 &1958191126481617774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2725985532603900960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1085d381dab6cf14a97b8ffaa5913aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LaserLength: 100
+  LaserWidth: 0.4
+  LaserLifeSpan: 0.1
+  LaserRecoil: 400
+  LaserMaterial: {fileID: 2100000, guid: 5b5a94ecf02584a448385972c4e816a0, type: 2}
+--- !u!114 &3961529045123285577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2725985532603900960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ad7bc50b554854bbbb2322d9733afc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1262139049988025514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2725985532603900960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47bd19a8d468d045b93667625230575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeamForce: 10
+  BeamLength: 7
+  BeamWidth: 0.1
+  BeamMaterial: {fileID: 2100000, guid: 4065a19903871324da03f172f20735e0, type: 2}
+  Tip: {fileID: 3863844528000126730}
+  Torque: 10
 --- !u!1 &3863844528000126730
 GameObject:
   m_ObjectHideFlags: 0
