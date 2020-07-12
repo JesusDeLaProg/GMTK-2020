@@ -1,19 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool Active;
+
     private LaserCanon laserCanon;
     private Magnet magnet;
     private SpriteRenderer ship;
     public Sprite deadShip;
     private bool hurting;
 
+    private new Rigidbody2D rigidbody;
+
     // Start is called before the first frame update
     void Start()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
         ship = GetComponent<SpriteRenderer>();
         laserCanon = GetComponent<LaserCanon>();
         magnet = GetComponent<Magnet>();
@@ -31,11 +37,11 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && Active)
         {
             magnet.Activate();
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && Active)
         {
             if(GameManager.instance.LaserReady)
             {
@@ -68,5 +74,16 @@ public class PlayerController : MonoBehaviour
             ship.color = Color.white;
             hurting = false;
         }
+    }
+
+    public IEnumerator Stop(float duration)
+    {
+        var start = DateTime.Now;
+        while (rigidbody.velocity.magnitude > 0)
+        {
+            rigidbody.velocity *= (float)(1 - (DateTime.Now - start).TotalSeconds / duration);
+            yield return new WaitForFixedUpdate();
+        }
+        rigidbody.velocity = Vector2.zero;
     }
 }

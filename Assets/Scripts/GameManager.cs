@@ -1,15 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public HealthDisplay Health;
     public LaserDisplay Laser;
+    public Image FadeInOutMask;
+
     public AnimController dialogue;
-    public PlayerController pc;
+    public PlayerController pc => GameObject.FindGameObjectWithTag("Spaceship").GetComponent<PlayerController>();
+
+    public Dialogue GameStartDialogue;
+    public Dialogue GameOverDialogue;
+    public Dialogue LevelWinDialogue;
 
     public bool LaserReady{
         get{
@@ -39,14 +46,16 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);        
         GameManager.instance = this;
         StartCoroutine(Health.FuelEmpty());
-        dialogue = GameObject.FindObjectOfType<AnimController>();
-        dialogue.StartAnim = true;
         StartLevel();
     }
 
     public void StartLevel(){
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
         SceneManager.LoadScene("DefaultMap");
+        dialogue = GameObject.FindObjectOfType<AnimController>();
+        dialogue.Dialogue = GameStartDialogue;
+        dialogue.OnAnimationEnd = () => pc.Active = true;
+        dialogue.StartAnim = true;
     }
     
     public void SetUI(){
@@ -58,14 +67,18 @@ public class GameManager : MonoBehaviour
     public void EndLevel()
     {
         Debug.Log("Bravo !");
+        dialogue.Dialogue = LevelWinDialogue;
+        StartCoroutine(pc.Stop(1));
+        dialogue.StartAnim = true;
     }
 
     public void EndGame()
     {
-        pc = GameObject.FindGameObjectWithTag("Spaceship").GetComponent<PlayerController>();
         Debug.Log("RIP !");
         GetComponent<AudioSource>().Play();
         pc.setSpriteDeadShip();
+        dialogue.Dialogue = GameOverDialogue;
+        dialogue.StartAnim = true;
     }
 
     public void Update()
@@ -74,6 +87,25 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
-        
+
+    }
+
+    private IEnumerator LoadLevel(string levelName)
+    {
+        var duration = 3f;
+        var start = DateTime.Now;
+        while((DateTime.Now - start).TotalSeconds < duration)
+        {
+            var color = FadeInOutMask.color;
+            FadeInOutMask.color = new Color(color.r, color.g, color.b, (float)((DateTime.Now - start).TotalSeconds / duration));
+            yield return new WaitForFixedUpdate();
+        }
+        SceneManager.LoadScene(levelName);
+        while ((DateTime.Now - start).TotalSeconds < duration)
+        {
+            var color = FadeInOutMask.color;
+            FadeInOutMask.color = new Color(color.r, color.g, color.b, (float)(1 - (DateTime.Now - start).TotalSeconds / duration));
+            yield return new WaitForFixedUpdate();
+        }
     }
 }

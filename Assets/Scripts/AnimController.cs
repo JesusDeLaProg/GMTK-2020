@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class AnimController : MonoBehaviour
     bool soloCheck = false;
 
     public Animator animator;
+    public Dialogue Dialogue;
+    public Action OnAnimationEnd;
 
     private void Update()
     {
@@ -25,7 +28,9 @@ public class AnimController : MonoBehaviour
             if (AnimEnded &&!soloCheck)
             {
                 soloCheck=true;
-                FindObjectOfType<DialogueTrigger>().TriggerDialogue();
+                var trigger = FindObjectOfType<DialogueTrigger>();
+                trigger.dialogue = Dialogue;
+                trigger.TriggerDialogue();
             }
 
         }
@@ -34,6 +39,8 @@ public class AnimController : MonoBehaviour
     public void AnimationIsOver()
     {
         AnimEnded = true;
+        OnAnimationEnd?.Invoke();
+        OnAnimationEnd = null;
     }
 
     public void Reset()

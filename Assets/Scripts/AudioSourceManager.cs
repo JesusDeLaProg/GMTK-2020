@@ -18,6 +18,16 @@ public class AudioSourceManager : MonoBehaviour
         StartCoroutine(VolumeFade(MagnetSound, 0, 0.1f));
     }
 
+    public void MuteMagnet()
+    {
+        MagnetSound.volume = 0;
+    }
+
+    public void UnmuteMagnet()
+    {
+        MagnetSound.volume = 0.25f;
+    }
+
     public void PlayLaser()
     {
         LaserSound.Play();

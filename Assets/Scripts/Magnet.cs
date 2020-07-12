@@ -17,12 +17,14 @@ public class Magnet : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private LineCreator lineCreator;
     private LineRenderer beam;
+    private AudioSourceManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         lineCreator = GetComponent<LineCreator>();
+        audioManager = GetComponent<AudioSourceManager>();
     }
 
     public void Activate()
@@ -30,14 +32,14 @@ public class Magnet : MonoBehaviour
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         beam = lineCreator.DrawLineTo(mousePosition - transform.position, BeamMaterial, BeamLength, BeamWidth);
-        gameObject.GetComponent<AudioSourceManager>().PlayMagnet();
+        audioManager.PlayMagnet();
     }
 
     public void Deactivate()
     {
-        gameObject.GetComponent<AudioSourceManager>().StopMagnet();
         Destroy(beam.gameObject);
         beam = null;
+        audioManager.StopMagnet();
     }
 
     // Update is called once per frame
@@ -70,7 +72,12 @@ public class Magnet : MonoBehaviour
         float angle = Vector2.SignedAngle(forward, direction);
         if (hits.Length > 0)
         {
+            audioManager.UnmuteMagnet();
             rigidbody.AddTorque(Torque * Mathf.Sign(angle));
+        }
+        else
+        {
+            audioManager.MuteMagnet();
         }
     }
 }
