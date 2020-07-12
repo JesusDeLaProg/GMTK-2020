@@ -37,7 +37,7 @@ public class Magnet : MonoBehaviour
 
     public void Deactivate()
     {
-        Destroy(beam.gameObject);
+        Destroy(beam?.gameObject);
         beam = null;
         audioManager.StopMagnet();
     }

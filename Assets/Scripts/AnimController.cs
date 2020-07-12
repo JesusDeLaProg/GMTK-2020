@@ -13,7 +13,7 @@ public class AnimController : MonoBehaviour
 
     public Animator animator;
     public Dialogue Dialogue;
-    public Action OnAnimationEnd;
+    public Action OnDialogueEnd;
 
     private void Update()
     {
@@ -39,8 +39,6 @@ public class AnimController : MonoBehaviour
     public void AnimationIsOver()
     {
         AnimEnded = true;
-        OnAnimationEnd?.Invoke();
-        OnAnimationEnd = null;
     }
 
     public void Reset()
@@ -50,6 +48,8 @@ public class AnimController : MonoBehaviour
         AnimEnded = false;
         StartOutro = false;
         soloCheck = false;
+        OnDialogueEnd?.Invoke();
+        OnDialogueEnd = null;
     }
 
 }
